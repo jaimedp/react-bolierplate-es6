@@ -1,0 +1,17 @@
+*.zip
+*.tar
+*.dmg
+*.gz
+
+*.log
+
+.DS_Store
+.Trashes
+
+npm-debug.log
+node_modules/
+
+*.sublime-*
+
+/web
+/public
