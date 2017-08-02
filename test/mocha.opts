@@ -1,0 +1,7 @@
+--require babel-polyfill
+--compilers js:babel-register
+--require ./test/setup
+--reporter spec
+--ui bdd
+src/**/*.spec.js
+test/**/*.spec.js

@@ -3,5 +3,10 @@
     "env",
     "stage-2",
     "react"
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": ["istanbul"]
+    }
+  }
 }
