@@ -12,6 +12,14 @@
   "rules": {
     "func-names": 0,
     "prefer-arrow-callback": 0,
-    "react/jsx-filename-extension": 0
-  }
+    "eqeqeq": 2,
+    "curly": 2,
+    "semi": [2, "always"],
+    "quotes": [2, "single"],
+    "no-eq-null": 1,
+    "no-undef": 2,
+    "comma-dangle": 0,
+    "max-len": ["error", 200],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+ }
 }

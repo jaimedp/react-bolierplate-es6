@@ -1,50 +1,53 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
+const path = require('path');
+
+const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
-  entry: {
-    app: './src/js/main.js'
-  },
-
+  entry: [
+    'react-hot-loader/patch',
+    './src/js/main.js'
+  ],
   output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: 'js/[name]-[hash].js'
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'js/[name]-[hash:8].js'
   },
-
-  resolve: {
-    extensions: ['.js', '.jsx']
-  },
-
   module: {
     rules: [
-      { test: /\.jsx?$/, exclude: /(node_modules)/, use: 'babel-loader' },
+      { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['babel-loader'] },
+      { test: /\.txt$/, use: 'raw-loader' },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            { loader: 'css-loader', options: { importLoaders: 1 } },
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: (loader) => [
-                  require('precss'),
-                  require('autoprefixer')(),
-                  require('cssnano')()
-                ]
-              }
-            }
-          ]
-        })
+        exclude: /node_modules/,
+        use: [
+          isDev ? 'style-loader' : { loader: MiniCssExtractPlugin.loader, options: { publicPath: '../' } },
+          { loader: 'css-loader', options: { importLoaders: 1, } },
+          { loader: 'postcss-loader' }
+        ]
       }
     ]
   },
 
+  resolve: {
+    extensions: ['*', '.js', '.jsx']
+  },
+
   plugins: [
-    new ExtractTextPlugin('css/site-[hash].css'),
-    new HtmlWebpackPlugin({ title: 'Custom template', template: './src/index.ejs' }),
+    new HtmlWebpackPlugin({ template: './src/index.ejs' }),
+    new webpack.HotModuleReplacementPlugin(),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: isDev ? '[name].css' : 'css/[name]-[hash:8].css',
+    })
   ],
 
-  devtool: 'eval-source-map'
+  devServer: {
+    contentBase: './dist',
+    hot: true
+  },
+
+  devtool: isDev ? 'eval-source-map' : 'source-map'
 };
