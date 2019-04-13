@@ -6,10 +6,7 @@ const path = require('path');
 const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
-  entry: [
-    'react-hot-loader/patch',
-    './src/js/main.js'
-  ],
+  entry: ['react-hot-loader/patch', './src/js/main.js'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'js/[name]-[hash:8].js'
@@ -22,8 +19,13 @@ module.exports = {
         test: /\.css$/,
         exclude: /node_modules/,
         use: [
-          isDev ? 'style-loader' : { loader: MiniCssExtractPlugin.loader, options: { publicPath: '../' } },
-          { loader: 'css-loader', options: { importLoaders: 1, } },
+          isDev
+            ? 'style-loader'
+            : {
+                loader: MiniCssExtractPlugin.loader,
+                options: { publicPath: '../' }
+              },
+          { loader: 'css-loader', options: { importLoaders: 1 } },
           { loader: 'postcss-loader' }
         ]
       }
@@ -31,7 +33,10 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['*', '.js', '.jsx']
+    extensions: ['*', '.js', '.jsx'],
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
   },
 
   plugins: [
@@ -40,13 +45,14 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: isDev ? '[name].css' : 'css/[name]-[hash:8].css',
+      filename: isDev ? '[name].css' : 'css/[name]-[hash:8].css'
     })
   ],
 
   devServer: {
     contentBase: './dist',
-    hot: true
+    hot: true,
+    inline: true
   },
 
   devtool: isDev ? 'eval-source-map' : 'source-map'
