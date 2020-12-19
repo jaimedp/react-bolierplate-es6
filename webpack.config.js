@@ -9,7 +9,7 @@ module.exports = {
   entry: ['react-hot-loader/patch', './src/js/main.js'],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name]-[hash:8].js'
+    filename: 'js/[name]-[hash:8].js',
   },
   module: {
     rules: [
@@ -23,20 +23,20 @@ module.exports = {
             ? 'style-loader'
             : {
                 loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: '../' }
+                options: { publicPath: '../' },
               },
           { loader: 'css-loader', options: { importLoaders: 1 } },
-          { loader: 'postcss-loader' }
-        ]
-      }
-    ]
+          { loader: 'postcss-loader' },
+        ],
+      },
+    ],
   },
 
   resolve: {
     extensions: ['*', '.js', '.jsx'],
     alias: {
-      'react-dom': '@hot-loader/react-dom'
-    }
+      'react-dom': '@hot-loader/react-dom',
+    },
   },
 
   plugins: [
@@ -45,15 +45,15 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: isDev ? '[name].css' : 'css/[name]-[hash:8].css'
-    })
+      filename: isDev ? '[name].css' : 'css/[name]-[hash:8].css',
+    }),
   ],
 
   devServer: {
     contentBase: './dist',
     hot: true,
-    inline: true
+    inline: true,
   },
 
-  devtool: isDev ? 'eval-source-map' : 'source-map'
+  devtool: isDev ? 'eval-source-map' : 'source-map',
 };
